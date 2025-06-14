@@ -41,7 +41,14 @@
             width: 80px;
             height: 80px;
             display: block;
-            margin: -440px auto 400px auto;
+            margin: -470px auto 400px auto;
+        }
+        section {
+            display: flex;
+        }
+        section > b {
+            height: 1em;
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -69,7 +76,7 @@
     (function () {
     usernameInput.addEventListener('input', refresh);
     [saturationInput, lightnessInput, paddingInput, colorsInput, saturationStepsInput, lightnessStepsInput].forEach(n => n.addEventListener('change', refresh))
-    reset.addEventListener('click', refresh)
+    form.addEventListener('reset', () => setTimeout(refresh, 0)) // Timeout pushes cb on event stack, so we can access the resetted input values
     }).bind(window)();
 
     refresh();
@@ -83,7 +90,7 @@
 <main id="main">
     <h1>Minidenticons Demo</h1>
     <input id="usernameInput" autofocus size="18" placeholder="Enter a nice username">
-    <form>
+    <form id="form">
         <p>
             <input type="range" id="saturationInput" value="95">
             <label id="saturationLabel" for="saturationInput"></label>
@@ -99,6 +106,7 @@
         <p>
             <input type="range" id="colorsInput" min="1" max="360" value="9">
             <label id="colorsLabel" for="colorsInput"></label>
+            <section id="colors"></section>
         </p>
         <p>
             <input type="range" id="saturationStepsInput" max="10" value="0">
@@ -114,5 +122,15 @@
     </form>
 </main>
 
+<script>
+const possibleColors = () => {
+	let html = "";
+	for (let h = 0; h < 360; h += 360 / colorsInput.value) html += `<b style="background:hsl(${h} 90 50)"></b>`;
+	colors.innerHTML = html;
+};
+possibleColors();
+colorsInput.addEventListener("change", possibleColors);
+form.addEventListener('reset', () => setTimeout(possibleColors, 0)) // Timeout pushes cb on event stack, so we can access the resetted input values
+</script>
 </body>
 </html>

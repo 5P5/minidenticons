@@ -103,7 +103,8 @@ minidenticon(
     saturation?: number,
     lightness?: number,
     hashFn?: (str: string) => number,
-    colors?: number, padding?: number,
+    colors?: number,
+    padding?: number,
     saturationSteps?: number,
     lightnessSteps?: number
     }

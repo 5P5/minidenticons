@@ -87,6 +87,18 @@ Play with [the demo](https://laurentpayot.github.io/minidenticons/) to find a co
 ![Minidenticons dark](img/smileys-black.svg)
 ![Minidenticons weird](img/smileys-yellow.svg)
 
+#### Gaps between rectangles visible :warning:
+
+![shape-rendering: crispEdges](img/crispEdges.png)
+
+In browsers based on engines *Blink* (Google Chrome, Microsoft Edge) and *WebKit* (Apple Safari), you might see gaps between the rectangles.  
+To prevent this, do set [shape-rendering](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/shape-rendering#crispedges) to `crispEdges` or `optimizeSpeed` on the SVG or the containing element:
+```css
+minidenticon-svg svg {
+  shape-rendering: crispedges;
+};
+```
+
 ### Performance
 
 - *Custom element* identicons are [memoized](https://en.wikipedia.org/wiki/Memoization) (stored in memory so that it does not need to be recalculated).

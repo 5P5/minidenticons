@@ -32,7 +32,7 @@ export function minidenticon(seed="", options={}) {
             acc + `<rect x="${i > 14 ? 7 - ~~(i / 5) : ~~(i / 5)}" y="${i % 5}" width="1" height="1"/>`
         : acc,
         // xmlns attribute added in case of SVG file generation https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg#sect1
-        `<svg viewBox="${-opts.padding} ${-opts.padding} ${opts.padding * 2 + 5} ${opts.padding * 2 + 5}" xmlns="http://www.w3.org/2000/svg" fill="hsl(${hue} ${saturation}% ${lightness}%)">`,
+        `<svg viewBox="${-opts.padding} ${-opts.padding} ${opts.padding * 2 + 5} ${opts.padding * 2 + 5}" xmlns="http://www.w3.org/2000/svg" fill="hsl(${hue} ${saturation}% ${lightness}%)">`
     )
     + '</svg>'
 }
@@ -61,7 +61,7 @@ export const minidenticonSvg =
                     const memoKey = args.join(',')
                     this.innerHTML = MinidenticonSvg.#memoized[memoKey] ??=
                         // @ts-ignore
-                        minidenticon(this.getAttribute("username"), MinidenticonSvg.observedAttributes.reduce((obj, key, i) => {args[i] != undefined ? (obj[key] = args[i]) : 0; return obj;}, {}));
+                        minidenticon(this.getAttribute("username"), MinidenticonSvg.observedAttributes.reduce((obj, key, i) => {args[i] != undefined ? (obj[key] = args[i]) : 0; return obj;}, {}))
                 }
             }
         )

@@ -1,5 +1,27 @@
 # Minidenticons changelog
 
+## 5.0.0
+
+_2025-06-14_
+
+- Added fully customizable options to the `minidenticon()` function. The included custom element can use these properties.
++ Added option for number of colors to use
++ Added option for padding in svg viewBox
++ Added option for number of saturation steps to use. if > 1 then saturation will be one from the n-values interval [0 .. Saturation]
++ Added option for number of lightness steps to use. if > 1 then lightness will be one from the n-values interval [0 .. Lightness]
+
+### migrate 4.2.1 → 5.0.0
+
+`minidenticon()` has new call signature
+```diff
+- minidenticon(seed="", saturation=DEFAULT_SATURATION, lightness=DEFAULT_LIGHTNESS, hashFn=simpleHash)
++ minidenticon(seed="", options={});
+```
+options object and all its properties are *optional* ;-)
+```typescript
+minidenticon(seed: string, options? = {saturation?: number, lightness?: number, hashFn?: (str: string) => number, colors?: number, padding?: number, saturationSteps?: number, lightnessSteps?: number}): string
+```
+
 ## 4.2.1
 
 _2024-03-01_

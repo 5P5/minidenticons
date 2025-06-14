@@ -2,12 +2,12 @@
 
 Super lightweight SVG identicon generator. No dependencies.
 
-![minified + brotlied size](https://badgen.net/static/minified%20brotli/269%20bytes/green)
-![minified + zipped size](https://badgen.net/static/minified%20zip/311%20bytes/green)
+![minified + brotlied size](https://badgen.net/static/minified%20brotli/379%20bytes/green)
+![minified + zipped size](https://badgen.net/static/minified%20zip/445%20bytes/green)
 <sup>(using the `minidenticon()` function only)</sup>
 
-![minified + brotlied size](https://badgen.net/static/minified%20brotli/453%20bytes/green)
-![minified + zipped size](https://badgen.net/static/minified%20zip/552%20bytes/green)
+![minified + brotlied size](https://badgen.net/static/minified%20brotli/611%20bytes/green)
+![minified + zipped size](https://badgen.net/static/minified%20zip/720%20bytes/green)
 <sup>(using the included custom element)</sup>
 
 <!--
@@ -36,7 +36,7 @@ Minidenticons uses [ES modules](https://jakearchibald.com/2017/es-modules-in-bro
 
 ```html
 <script type="module">
-  import { minidenticonSvg } from 'https://cdn.jsdelivr.net/npm/minidenticons@4.2.1/minidenticons.min.js'
+  import { minidenticonSvg } from 'https://cdn.jsdelivr.net/npm/minidenticons@5.0.0/minidenticons.min.js'
 </script>
 ```
 
@@ -59,7 +59,7 @@ For easy CSS styling:
 - Minidenticons are [SVG](https://en.wikipedia.org/wiki/SVG) images that will take [all the space available.](https://raw.githubusercontent.com/laurentpayot/minidenticons/main/img/laurent.svg) The picture above is resized.
 
 - The background is transparent.
-- There is white space around the colored square matrix to allow uncropped circle avatars.
+- There is default white space around the colored square matrix to allow uncropped circle avatars.
 
 So with the following CSS:
 ```css
@@ -97,14 +97,26 @@ Play with [the demo](https://laurentpayot.github.io/minidenticons/) to find a co
 Instead of using the custom element, you can also use the `minidenticon()` function to generate SVG strings in your client (or your server).
 
 ```typescript
-minidenticon(seed: string, saturation?: number|string, lightness?: number|string, hashFn?: (str: string) => number): string
+minidenticon(
+  seed: string,
+  options? = {
+    saturation?: number,
+    lightness?: number,
+    hashFn?: (str: string) => number,
+    colors?: number, padding?: number,
+    saturationSteps?: number,
+    lightnessSteps?: number
+    }
+  ): string
 ```
 
 The `minidenticon()` function will return a SVG string generated from its seed string argument. The seed argument can be a username, but actually any string used as an identifier.
 
-Optional saturation and lightness arguments should be percentages; that is, numbers (or strings) between 0 and 100.
+Optional saturation and lightness should be percentages; that is, numbers (or strings) between 0 and 100.
 
-If you need to, you can use your own hash function as argument of the fourth parameter (optional). Your custom hash function must take a string and return a number. The last 15 bits of the integer part of the hash will be used to draw the squares. The included custom element does not use this last parameter.
+If saturationSteps/lightnessSteps is &gt; 1 then saturation/lightness will be one from the n-values interval [0 .. Saturation/Lightness].
+
+If you need to, you can use your own hash function as `hashFn`. Your custom hash function must take a string and return a number. The last 15 bits of the integer part of the hash will be used to draw the squares. The included custom element does not use this last parameter.
 
 Note that the `minidenticon()` function itself is *not* memoized.
 
@@ -133,6 +145,8 @@ The `minidenticon()` function is *fast*. You can see by yourself if you run `nod
 ```
 Time to generate 10000 minidenticon SVG strings for 15 characters random seeds:
 8 milliseconds (10 runs average)
+
+15–20 milliseconds (10 runs average)  Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz
 ```
 ### React
 
@@ -144,7 +158,7 @@ import { useMemo } from 'react'
 
 const MinidenticonImg = ({ username, saturation, lightness, ...props }) => {
   const svgURI = useMemo(
-    () => 'data:image/svg+xml;utf8,' + encodeURIComponent(minidenticon(username, saturation, lightness)),
+    () => 'data:image/svg+xml;utf8,' + encodeURIComponent(minidenticon(username, {saturation, lightness})),
     [username, saturation, lightness]
   )
   return (<img src={svgURI} alt={username} {...props} />)
@@ -189,8 +203,11 @@ For [Elm](https://elm-lang.org/) enthusiasts there is a Minidenticons package on
 
 You will always get the same identicon for a given username. But it is not impossible to have different usernames with the same identicon. That's a [collision](https://en.wikipedia.org/wiki/Hash_collision).
 
-Generated identicons are 5×5 matrices with vertical symmetry, and can have 9 different hues for the same saturation and lightness.
+Generated identicons are 5×5 matrices with vertical symmetry, and can have default 9 different hues for the same saturation and lightness.
 This means there are 2<sup>(3×5)</sup> × 9 = 294,912 different identicons possible, but duplicate identicons are inevitable when using a lot of them. It shouldn’t matter as identicons should not be used solely to identify an user, and should always be coupled to a *unique* username :wink:
+
+Maximum different identicons possible with `{ colors: 360, saturation: 100, saturationSteps: 100, lightness: 100, lightnessSteps: 100 }` := 2<sup>(3×5)</sup> × 360 × 100 = 1,179,648,000  
+Although a 1% difference in saturation or lightness will hardly be noticeable :wink:
 
 The `npm test` command results below show that you have less than a 2 percent chance to generate a duplicate identicon when already using 10,000 of them.
 

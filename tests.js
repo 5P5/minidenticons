@@ -32,34 +32,52 @@ new Array(minidenticon_CE, minidenticon_NO_CE).forEach(minidenticon => {
     )
 
     assert.equal(
+        minidenticon("5P5", { padding: 0 }),
+        '<svg viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" fill="hsl(120 95% 45%)"><rect x="0" y="0" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>',
+        'padding'
+    )
+
+    assert.equal(
+        minidenticon("5P5", { padding: 0, colors: 329 }),
+        '<svg viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" fill="hsl(39 95% 45%)"><rect x="0" y="0" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>',
+        'colors'
+    )
+
+    assert.equal(
+        minidenticon("5P5", { padding: 0, colors: 12, saturation: 100, saturationSteps: 4, lightness: 50, lightnessSteps: 4 }),
+        '<svg viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg" fill="hsl(270 33% 16%)"><rect x="0" y="0" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>',
+        'all options'
+    )
+
+    assert.equal(
         minidenticon("foo"),
         '<svg viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="hsl(120 95% 45%)"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>'
     )
 
     assert.equal(
-        minidenticon("foo", 75),
+        minidenticon("foo", { saturation: 75 }),
         '<svg viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="hsl(120 75% 45%)"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>'
     )
 
     assert.equal(
-        minidenticon("foo", undefined, 75),
+        minidenticon("foo", { lightness: 75 }),
         '<svg viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="hsl(120 95% 75%)"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>'
     )
 
     assert.equal(
-        minidenticon("foo", undefined, undefined, alternateTerribleHash),
+        minidenticon("foo", { hashFn: alternateTerribleHash }),
         '<svg viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="hsl(120 95% 45%)"><rect x="0" y="2" width="1" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="3" y="2" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>'
     )
 
     assert.notEqual(
         minidenticon("foo"),
-        minidenticon("foo", undefined, undefined, alternateTerribleHash)
+        minidenticon("foo", { hashFn: alternateTerribleHash })
     )
 
     for (let saturation = 0; saturation < 100; saturation += 5) {
         for (let lightness = 0; lightness < COLLISION_TESTS_NUMBER; lightness += 5) {
             assert.equal(
-                minidenticon("foo", saturation, lightness),
+                minidenticon("foo", { saturation, lightness }),
                 `<svg viewBox="-1.5 -1.5 8 8" xmlns="http://www.w3.org/2000/svg" fill="hsl(120 ${saturation}% ${lightness}%)"><rect x="0" y="0" width="1" height="1"/><rect x="1" y="0" width="1" height="1"/><rect x="1" y="4" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="3" y="4" width="1" height="1"/></svg>`
             )
         }

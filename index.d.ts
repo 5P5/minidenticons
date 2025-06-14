@@ -1,1 +1,1 @@
-export function minidenticon(seed: string, saturation?: number|string, lightness?: number|string, hashFn?: (str: string) => number): string
+export function minidenticon(seed: string, options? = {saturation?: number, lightness?: number, hashFn?: (str: string) => number, colors?: number, padding?: number, saturationSteps?: number, lightnessSteps?: number}): string

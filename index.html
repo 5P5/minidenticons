@@ -20,15 +20,13 @@
         main {
             text-align: center;
         }
-        fieldset {
-            border: 0;
-            width: 300px;
+        form {
+            width: 330px;
             margin: auto;
-        }
-        fieldset > p {
             text-align: left;
         }
-        #username-input {
+
+        #usernameInput {
             margin-top: 100px;
         }
         minidenticon-svg {
@@ -43,7 +41,7 @@
             width: 80px;
             height: 80px;
             display: block;
-            margin: -225px auto 160px auto;
+            margin: -440px auto 400px auto;
         }
     </style>
 </head>
@@ -53,29 +51,28 @@
 <script type="module">
     import { minidenticonSvg } from "./minidenticons.min.js"
 
-    const main = document.querySelector('main')
-    const usernameInput = main.querySelector('#username-input')
-    const saturationInput = main.querySelector('#saturation-input')
-    const saturationLabel = main.querySelector('label[for=saturation]')
-    const lightnessInput = main.querySelector('#lightness-input')
-    const lightnessLabel = main.querySelector('label[for=lightness]')
-
-    function refresh() {
+    const refresh = function () {
         saturationLabel.textContent = `Saturation ${saturationInput.value}%`
         lightnessLabel.textContent = `Lightness ${lightnessInput.value}%`
+        paddingLabel.textContent = `Padding ${paddingInput.value}`
+        colorsLabel.textContent = `Colors ${colorsInput.value}`
+        saturationStepsLabel.textContent = `Saturation Steps ${saturationStepsInput.value}`
+        lightnessStepsLabel.textContent = `Lightness Steps ${lightnessStepsInput.value}`
         main.insertAdjacentHTML("afterend",
             `<minidenticon-svg username="${usernameInput.value}"
-                title='"${usernameInput.value.replaceAll("'", "&apos;")}", ${saturationInput.value}, ${lightnessInput.value}'
-                saturation="${saturationInput.value}" lightness="${lightnessInput.value}"
+                title='"${usernameInput.value.replaceAll("'", "&apos;")}"\n%Sat ${saturationInput.value}\n%Lgt ${lightnessInput.value}\nPad ${paddingInput.value}\n#Cls ${colorsInput.value}\n#Sat ${saturationStepsInput.value}\n#Lgt ${lightnessStepsInput.value}'
+                saturation="${saturationInput.value}" lightness="${lightnessInput.value}" padding="${paddingInput.value}" colors="${colorsInput.value}" saturationSteps="${saturationStepsInput.value}" lightnessSteps="${lightnessStepsInput.value}"
             ></minidenticon-svg>`
         )
-    }
+    }.bind(window);
 
-    usernameInput.addEventListener('input', () => refresh())
-    saturationInput.addEventListener('change', () => refresh())
-    lightnessInput.addEventListener('change', () => refresh())
+    (function () {
+    usernameInput.addEventListener('input', refresh);
+    [saturationInput, lightnessInput, paddingInput, colorsInput, saturationStepsInput, lightnessStepsInput].forEach(n => n.addEventListener('change', refresh))
+    reset.addEventListener('click', refresh)
+    }).bind(window)();
 
-    refresh()
+    refresh();
 
 </script>
 
@@ -83,19 +80,38 @@
     <img src="https://badgen.net/badge/icon/github?icon=github&label" alt="GitHub repository">
 </a>
 
-<main>
+<main id="main">
     <h1>Minidenticons Demo</h1>
-    <input id="username-input" autofocus size="18" placeholder="Enter a nice username">
-    <fieldset>
+    <input id="usernameInput" autofocus size="18" placeholder="Enter a nice username">
+    <form>
         <p>
-            <input type="range" id="saturation-input" min="0" max="100" value="95">
-            <label for="saturation"></label>
+            <input type="range" id="saturationInput" value="95">
+            <label id="saturationLabel" for="saturationInput"></label>
         </p>
         <p>
-            <input type="range" id="lightness-input" min="0" max="100" value="45">
-            <label for="lightness"></label>
+            <input type="range" id="lightnessInput" value="45">
+            <label id="lightnessLabel" for="lightnessInput"></label>
         </p>
-    </fieldset>
+        <p>
+            <input type="range" id="paddingInput" max="10" step=".5" value="1.5">
+            <label id="paddingLabel" for="paddingInput"></label>
+        </p>
+        <p>
+            <input type="range" id="colorsInput" min="1" max="360" value="9">
+            <label id="colorsLabel" for="colorsInput"></label>
+        </p>
+        <p>
+            <input type="range" id="saturationStepsInput" max="10" value="0">
+            <label id="saturationStepsLabel" for="saturationStepsInput"></label>
+            <b title="if > 1 then saturation will be one from the n-values interval [0 .. Saturation]">ℹ️</b>
+        </p>
+        <p>
+            <input type="range" id="lightnessStepsInput" max="10" value="0">
+            <label id="lightnessStepsLabel" for="lightnessStepsInput"></label>
+            <b title="if > 1 then lightness will be one from the n-values interval [0 .. Lightness]">ℹ️</b>
+        </p>
+        <button type="reset" id="reset">reset</button>
+    </form>
 </main>
 
 </body>

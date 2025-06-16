@@ -19,7 +19,7 @@ _2025-06-14_
 ```
 options object and all its properties are *optional* ;-)
 ```typescript
-minidenticon(seed: string, options? = {saturation?: number, lightness?: number, hashFn?: (str: string) => number, colors?: number, padding?: number, saturationSteps?: number, lightnessSteps?: number}): string
+minidenticon(seed: string, options?: {saturation?: number, lightness?: number, hashFn?: (str: string) => number, colors?: number, padding?: number, saturationSteps?: number, lightnessSteps?: number}): string
 ```
 
 ## 4.2.1

@@ -111,7 +111,7 @@ Instead of using the custom element, you can also use the `minidenticon()` funct
 ```typescript
 minidenticon(
   seed: string,
-  options? = {
+  options?: {
     saturation?: number,
     lightness?: number,
     hashFn?: (str: string) => number,
